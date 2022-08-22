@@ -76,4 +76,9 @@ public class Quarry : MonoBehaviour
     {
         StartCoroutine(MovementLoop());
     }
+
+    private void OnMouseDown()
+    {
+        Destroy(gameObject);
+    }
 }

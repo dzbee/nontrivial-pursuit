@@ -152,10 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e42ef178e2790d643acc543b86590cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quarryPrefab: {fileID: 7418724462821668898, guid: d1321a62fe7edd54d9dc849e5024b320, type: 3}
+  quarryPrefab: {fileID: 7418724462821668899, guid: d1321a62fe7edd54d9dc849e5024b320, type: 3}
   nQuarries: 13
   spawnWidth: 10
-  spawnHeight: -4
+  spawnHeight: 4
 --- !u!4 &102260504
 Transform:
   m_ObjectHideFlags: 0
