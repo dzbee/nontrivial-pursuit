@@ -6,8 +6,11 @@ public class Quarry : MonoBehaviour
 {
     private enum Direction{Up, Down, Right, Left};
     private float arenaWidth = 11, arenaHeight = 5;
-    private float maxIdle = 1;
-    private float movementTime = 0.5f;
+    [SerializeField] private float maxIdle = 1;
+    [SerializeField] private float movementTime = 0.5f;
+    [SerializeField] protected string[] trivia;
+    [SerializeField] private TriviaBubble triviaBubble;
+    [SerializeField] private float triviaDisplayTime = 2, triviaMaxWaitTime = 5;
 
     private IEnumerator MovementLoop()
     {
@@ -72,13 +75,32 @@ public class Quarry : MonoBehaviour
         return true;
     }
 
+    private IEnumerator TriviaLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(0, triviaMaxWaitTime));
+            ChooseAndDisplayTrivia();
+            yield return new WaitForSeconds(triviaDisplayTime);
+            triviaBubble.gameObject.SetActive(false);
+        }
+    }
+
+    private void ChooseAndDisplayTrivia()
+    {
+        int index = Random.Range(0, trivia.Length);
+        triviaBubble.gameObject.SetActive(true);
+        triviaBubble.DisplayTrivia(trivia[index].Replace("\\n", "\n"));
+    }
+
+    private void Awake()
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+    }
+
     private void Start()
     {
         StartCoroutine(MovementLoop());
-    }
-
-    private void OnMouseDown()
-    {
-        Destroy(gameObject);
+        StartCoroutine(TriviaLoop());
     }
 }
