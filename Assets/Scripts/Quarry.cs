@@ -8,11 +8,10 @@ public class Quarry : MonoBehaviour
     public TriviaBubble triviaBubble { get; protected set; }
     protected enum Direction{Up, Down, Right, Left};
     protected float arenaWidth = 11, arenaHeight = 5;
-    [SerializeField] protected float maxIdle = 1;
-    [SerializeField] protected float movementTime = 0.5f;
+    protected float maxIdle = 0.5f, movementTime = 0.25f;
     [SerializeField] protected string[] trivia;
     protected HashSet<int> usedTrivia = new HashSet<int>();
-    [SerializeField] protected float triviaMaxWaitTime = 5;
+    protected float triviaMaxWaitTime = 5;
 
     protected IEnumerator MovementLoop()
     {

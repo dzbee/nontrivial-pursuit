@@ -6,6 +6,6 @@ public class NontrivialQuarry : Quarry
 {
     private void OnMouseDown()
     {
-        gameObject.SetActive(false);
+        GameManager.Instance.EliminateNontrivialQuarry(gameObject);
     }
 }
