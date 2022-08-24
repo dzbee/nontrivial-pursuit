@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Quarry : MonoBehaviour
 {
+    public TriviaBubble triviaBubble { get; protected set; }
     private enum Direction{Up, Down, Right, Left};
     private float arenaWidth = 11, arenaHeight = 5;
     [SerializeField] private float maxIdle = 1;
     [SerializeField] private float movementTime = 0.5f;
     [SerializeField] protected string[] trivia;
-    [SerializeField] private TriviaBubble triviaBubble;
-    [SerializeField] private float triviaDisplayTime = 2, triviaMaxWaitTime = 5;
+    protected HashSet<int> usedTrivia = new HashSet<int>();
+    [SerializeField] private float triviaMaxWaitTime = 5;
 
     private IEnumerator MovementLoop()
     {
@@ -80,26 +82,34 @@ public class Quarry : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(0, triviaMaxWaitTime));
-            ChooseAndDisplayTrivia();
-            yield return new WaitForSeconds(triviaDisplayTime);
-            triviaBubble.gameObject.SetActive(false);
+            EnqueueTrivia();
         }
     }
 
-    private void ChooseAndDisplayTrivia()
+    private string SelectUnusedTrivia()
     {
-        int index = Random.Range(0, trivia.Length);
-        triviaBubble.gameObject.SetActive(true);
-        triviaBubble.DisplayTrivia(trivia[index].Replace("\\n", "\n"));
+        HashSet<int> available = Enumerable.Range(0, trivia.Length).ToHashSet<int>();
+        available.ExceptWith(usedTrivia);
+        if (available.Count == 0)
+        {
+            usedTrivia = new HashSet<int>();
+            return SelectUnusedTrivia();
+        }
+        int selectIndex = Random.Range(0, available.Count);
+        int triviaIndex = available.ToList<int>()[selectIndex];
+        usedTrivia.Add(triviaIndex);
+        return trivia[triviaIndex].Replace("\\n", "\n");
     }
 
-    private void Awake()
+    private void EnqueueTrivia()
     {
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        TriviaManager.Instance.EnqueueTrivia(this, SelectUnusedTrivia());
     }
 
     private void Start()
     {
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        triviaBubble = gameObject.GetComponentInChildren<TriviaBubble>(true);
         StartCoroutine(MovementLoop());
         StartCoroutine(TriviaLoop());
     }
