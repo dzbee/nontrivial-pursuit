@@ -41,6 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: NontrivialQuarry
+    uniqueID: 2481708751
+    locked: 0
+  - name: TrivialQuarry
+    uniqueID: 2780925149
+    locked: 0
   - name: Trivia
     uniqueID: 539435245
     locked: 0

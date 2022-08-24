@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1813258545
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -125,14 +125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec90eef6dae627429a7cf90e53612cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxIdle: 1
-  movementTime: 0.5
   trivia:
   - I was born in 200 log cabins.
   - Kreuz is German for Williams.
-  triviaBubble: {fileID: 2700068213088017641}
-  triviaDisplayTime: 2
-  triviaMaxWaitTime: 5
 --- !u!1 &2700068212051890429
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +199,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 539435245
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9b337a360b84fa9428fe7dbe7774012f, type: 3}
   m_Color: {r: 0.8773585, g: 0.84760356, b: 0.73996085, a: 1}
@@ -294,7 +289,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 539435245
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &2700068212878576480

@@ -125,7 +125,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 539435245
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &843329307
@@ -291,7 +291,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 539435245
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9b337a360b84fa9428fe7dbe7774012f, type: 3}
   m_Color: {r: 0.8773585, g: 0.84760356, b: 0.73996085, a: 1}
@@ -377,8 +377,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1514042147
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -429,12 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbadd55b6de709049b23bce60e8f694a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxIdle: 1
-  movementTime: 0.5
   trivia:
   - Ripe figs contain wasp corpses.
   - There's no building taller than the US Steel Building\nthat's as wide as the
     US Steel Building at its height.
-  triviaBubble: {fileID: 769194130}
-  triviaDisplayTime: 2
-  triviaMaxWaitTime: 5
