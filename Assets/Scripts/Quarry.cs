@@ -6,27 +6,27 @@ using UnityEngine;
 public class Quarry : MonoBehaviour
 {
     public TriviaBubble triviaBubble { get; protected set; }
-    private enum Direction{Up, Down, Right, Left};
-    private float arenaWidth = 11, arenaHeight = 5;
-    [SerializeField] private float maxIdle = 1;
-    [SerializeField] private float movementTime = 0.5f;
+    protected enum Direction{Up, Down, Right, Left};
+    protected float arenaWidth = 11, arenaHeight = 5;
+    [SerializeField] protected float maxIdle = 1;
+    [SerializeField] protected float movementTime = 0.5f;
     [SerializeField] protected string[] trivia;
     protected HashSet<int> usedTrivia = new HashSet<int>();
-    [SerializeField] private float triviaMaxWaitTime = 5;
+    [SerializeField] protected float triviaMaxWaitTime = 5;
 
-    private IEnumerator MovementLoop()
+    protected IEnumerator MovementLoop()
     {
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(0, maxIdle));
-            yield return StartCoroutine(Move());
+            Vector2 currentPosition = transform.position;
+            Vector2 targetPosition = currentPosition + GetMovementUpdate();
+            yield return StartCoroutine(Move(currentPosition, targetPosition));
         }
     }
 
-    private IEnumerator Move()
+    protected virtual IEnumerator Move(Vector2 currentPosition, Vector2 targetPosition)
     {
-        Vector3 currentPosition = transform.position;
-        Vector3 targetPosition = currentPosition + (Vector3)GetMovementUpdate();
         float timeElapsed = 0;
         while (timeElapsed <= movementTime)
         {
@@ -37,7 +37,7 @@ public class Quarry : MonoBehaviour
         transform.position = Vector3.Lerp(currentPosition, targetPosition, 1);
     }
 
-    private Vector2 GetMovementUpdate()
+    protected Vector2 GetMovementUpdate()
     {
         Direction directionCode = (Direction)Random.Range(0, 4);
         Vector2 move = Vector2.zero;
@@ -62,7 +62,7 @@ public class Quarry : MonoBehaviour
         return move;
     }
 
-    private bool IsMoveInBounds(Vector2 move)
+    protected bool IsMoveInBounds(Vector2 move)
     {
         Vector2 updatedPosition = new Vector2(transform.position.x, transform.position.y) + move;
         if (
@@ -77,7 +77,7 @@ public class Quarry : MonoBehaviour
         return true;
     }
 
-    private IEnumerator TriviaLoop()
+    protected IEnumerator TriviaLoop()
     {
         while (true)
         {
@@ -86,7 +86,7 @@ public class Quarry : MonoBehaviour
         }
     }
 
-    private string SelectUnusedTrivia()
+    protected string SelectUnusedTrivia()
     {
         HashSet<int> available = Enumerable.Range(0, trivia.Length).ToHashSet<int>();
         available.ExceptWith(usedTrivia);
@@ -101,7 +101,7 @@ public class Quarry : MonoBehaviour
         return trivia[triviaIndex].Replace("\\n", "\n");
     }
 
-    private void EnqueueTrivia()
+    protected void EnqueueTrivia()
     {
         TriviaManager.Instance.EnqueueTrivia(this, SelectUnusedTrivia());
     }
