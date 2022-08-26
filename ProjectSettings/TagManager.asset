@@ -50,3 +50,6 @@ TagManager:
   - name: Trivia
     uniqueID: 539435245
     locked: 0
+  - name: UI
+    uniqueID: 702988623
+    locked: 0

@@ -7,16 +7,15 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    [SerializeField] UIManager uiManager;
     [SerializeField] private TrivialQuarry trivialQuarryPrefab;
     [SerializeField] private NontrivialQuarry nontrivialQuarryPrefab;
-    [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private TextMeshProUGUI gameOverText;
     private enum GameState{Active, Inactive};
     private GameState gameState;
     [SerializeField] private int nQuarries = 15, nNontrivialQuarries = 5;
     [SerializeField] private int lives = 3;
     [SerializeField] private int spawnWidth = 10, spawnHeight = -4;
-    private float timeElapsed = 0;
+    public int timeElapsed = 0;
 
     private void SpawnQuarries()
     {
@@ -42,9 +41,11 @@ public class GameManager : MonoBehaviour
         {
             quarry.SetActive(false);
             nNontrivialQuarries--;
+            uiManager.ScorePoint();
             if (nNontrivialQuarries < 1)
             {
-                Victory();
+                GameOver();
+                uiManager.GameOver(true);
             }
         }
     }
@@ -55,30 +56,19 @@ public class GameManager : MonoBehaviour
         {
             quarry.SetActive(false);
             lives--;
+            uiManager.LoseLife();
             if (lives < 1)
             {
-                Defeat();
+                GameOver();
+                uiManager.GameOver(false);
             }
         }
-    }
-
-    private void Victory()
-    {
-        gameOverText.text = $"SUCCESS\nScore: {timeElapsed}";
-        GameOver();
-    }
-
-    private void Defeat()
-    {
-        gameOverText.text = $"GAME OVER\nTry to avoid clicking on true facts!";
-        GameOver();
     }
 
     private void GameOver()
     {
         Time.timeScale = 0;
         gameState = GameState.Inactive;
-        gameOverPanel.SetActive(true);
     }
 
     public void NewGame()
@@ -94,6 +84,7 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
             timeElapsed++;
+            uiManager.UpdateClock(timeElapsed);
         }
     }
 
