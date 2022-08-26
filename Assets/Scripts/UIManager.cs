@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshPro clockText;
+    [SerializeField] private TextMeshProUGUI clockText;
     [SerializeField] private GameObject[] lives;
-    [SerializeField] private SpriteRenderer[] pointSprites;
+    [SerializeField] private Image[] pointImages;
     [SerializeField] private Sprite lightbulbOff, lightbulbOn;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI gameOverText;
@@ -38,11 +39,11 @@ public class UIManager : MonoBehaviour
 
     public void ScorePoint()
     {
-        for (int i=0; i<pointSprites.Length; i++)
+        for (int i=0; i<pointImages.Length; i++)
         {
-            if (pointSprites[i].sprite == lightbulbOff)
+            if (pointImages[i].sprite == lightbulbOff)
             {
-                pointSprites[i].sprite = lightbulbOn;
+                pointImages[i].sprite = lightbulbOn;
                 break;
             }
         }
