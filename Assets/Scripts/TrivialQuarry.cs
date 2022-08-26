@@ -6,7 +6,7 @@ public class TrivialQuarry : Quarry
 {
     private void OnMouseDown()
     {
-        GameManager.Instance.GameOver();
+        GameManager.Instance.EliminateTrivialQuarry(gameObject);
     }
 
     protected override IEnumerator Move(Vector2 currentPosition, Vector2 targetPosition)

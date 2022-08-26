@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    [SerializeField] UIManager uiManager;
     [SerializeField] private TrivialQuarry trivialQuarryPrefab;
     [SerializeField] private NontrivialQuarry nontrivialQuarryPrefab;
-    [SerializeField] private int nQuarries = 10, nNontrivialQuarries = 0;
+    private enum GameState{Active, Inactive};
+    private GameState gameState;
+    [SerializeField] private int nQuarries = 15, nNontrivialQuarries = 5;
+    [SerializeField] private int lives = 3;
     [SerializeField] private int spawnWidth = 10, spawnHeight = -4;
-    [SerializeField] private GameObject gameOverPanel;
+    public int timeElapsed = 0;
 
     private void SpawnQuarries()
     {
@@ -30,16 +35,57 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameOver()
+    public void EliminateNontrivialQuarry(GameObject quarry)
+    {
+        if (gameState == GameState.Active)
+        {
+            quarry.SetActive(false);
+            nNontrivialQuarries--;
+            uiManager.ScorePoint();
+            if (nNontrivialQuarries < 1)
+            {
+                GameOver();
+                uiManager.GameOver(true);
+            }
+        }
+    }
+
+    public void EliminateTrivialQuarry(GameObject quarry)
+    {
+        if (gameState == GameState.Active)
+        {
+            quarry.SetActive(false);
+            lives--;
+            uiManager.LoseLife();
+            if (lives < 1)
+            {
+                GameOver();
+                uiManager.GameOver(false);
+            }
+        }
+    }
+
+    private void GameOver()
     {
         Time.timeScale = 0;
-        gameOverPanel.SetActive(true);
+        gameState = GameState.Inactive;
     }
 
     public void NewGame()
     {
         Time.timeScale = 1;
+        gameState = GameState.Active;
         SceneManager.LoadScene("Game");
+    }
+
+    private IEnumerator RunGameClock()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            timeElapsed++;
+            uiManager.UpdateClock(timeElapsed);
+        }
     }
 
     private void Awake()
@@ -54,5 +100,6 @@ public class GameManager : MonoBehaviour
         }
 
         SpawnQuarries();
+        StartCoroutine(RunGameClock());
     }
 }
