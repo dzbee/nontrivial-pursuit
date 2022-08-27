@@ -126,8 +126,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trivia:
-  - I was born in 200 log cabins.
+  - The Great Wall of China is the only man made structure visible from space.
   - Kreuz is German for Williams.
+  - Tailgating was invented in Pittsburgh.
+  - Dogs sweat by panting.
+  - Water swirls down the drain in opposite directions in the southern and northern
+    hemisphers.
+  - Drinking coffee leaves you dehydrated.
+  - Your hair can grow up to an inch after death.
+  - Mosquitos are more attracted to people whose diet is high in iron.
+  - Daddy long legs are venemous, but their fangs are too small to pierce human skin.
+  - The lifespan of an adult fruit fly is roughly 24 hours.
+  - Dr. Seuss was a doctor of child psychology.
+  - JFK once proclaimed "I am a doughnut" in German to an audience in Berlin.
 --- !u!1 &2700068212051890429
 GameObject:
   m_ObjectHideFlags: 0
