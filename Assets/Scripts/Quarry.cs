@@ -11,7 +11,6 @@ public class Quarry : MonoBehaviour
     protected float maxIdle = 0.5f, movementTime = 0.25f;
     [SerializeField] protected string[] trivia;
     protected HashSet<int> usedTrivia = new HashSet<int>();
-    protected float triviaMinWaitTime = 3, triviaMaxWaitTime = 10;
 
     protected IEnumerator MovementLoop()
     {
@@ -75,17 +74,7 @@ public class Quarry : MonoBehaviour
         }
         return true;
     }
-
-    protected IEnumerator TriviaLoop()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(Random.Range(triviaMinWaitTime, triviaMaxWaitTime));
-            EnqueueTrivia();
-        }
-    }
-
-    protected string SelectUnusedTrivia()
+    public string SelectUnusedTrivia()
     {
         HashSet<int> available = Enumerable.Range(0, trivia.Length).ToHashSet<int>();
         available.ExceptWith(usedTrivia);
@@ -100,16 +89,11 @@ public class Quarry : MonoBehaviour
         return trivia[triviaIndex];
     }
 
-    protected void EnqueueTrivia()
-    {
-        TriviaManager.Instance.EnqueueTrivia(this, SelectUnusedTrivia());
-    }
-
     private void Start()
     {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         triviaBubble = gameObject.GetComponentInChildren<TriviaBubble>(true);
+        TriviaManager.Instance.RegisterQuarry(this);
         StartCoroutine(MovementLoop());
-        StartCoroutine(TriviaLoop());
     }
 }

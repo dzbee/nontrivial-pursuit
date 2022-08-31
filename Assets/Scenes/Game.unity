@@ -885,7 +885,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84dcf04905d54164a946462521550551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayCount: 0
   maxDisplayCount: 4
 --- !u!4 &756746001
 Transform:
