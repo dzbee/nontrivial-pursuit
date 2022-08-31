@@ -7,7 +7,7 @@ public class Quarry : MonoBehaviour
 {
     public TriviaBubble triviaBubble { get; protected set; }
     protected enum Direction{Up, Down, Right, Left};
-    protected float arenaWidth = 11, arenaHeight = 5;
+    protected float arenaWidth = 8, arenaHeight = 6;
     protected float maxIdle = 0.5f, movementTime = 0.25f;
     [SerializeField] protected string[] trivia;
     protected HashSet<int> usedTrivia = new HashSet<int>();
