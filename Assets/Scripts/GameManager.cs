@@ -18,26 +18,26 @@ public class GameManager : MonoBehaviour
     private HashSet<Vector2> spawns = new HashSet<Vector2>();
     public int timeElapsed = 0;
 
-    private void SpawnQuarries()
+    private void SpawnQuarry(Quarry prefab)
     {
         Vector2 spawnPos = new Vector2(Random.Range(-spawnWidth, spawnWidth), Random.Range(-spawnHeight, spawnHeight));
+        while (spawns.Contains(spawnPos))
+        {
+                spawnPos = new Vector2(Random.Range(-spawnWidth, spawnWidth), Random.Range(-spawnHeight, spawnHeight));
+        }
+        spawns.Add(spawnPos);
+        Instantiate(prefab, spawnPos, prefab.transform.rotation);
+    }
+
+    private void SpawnQuarries()
+    {
         for (int i = 0; i < nQuarries; i++)
         {
-            while (spawns.Contains(spawnPos))
-            {
-                spawnPos = new Vector2(Random.Range(-spawnWidth, spawnWidth), Random.Range(-spawnHeight, spawnHeight));
-            }
-            spawns.Add(spawnPos);
-            Instantiate(trivialQuarryPrefab, spawnPos, trivialQuarryPrefab.transform.rotation);
+            SpawnQuarry(trivialQuarryPrefab);
         }
         for (int i = 0; i < nNontrivialQuarries; i++)
         {
-            while (spawns.Contains(spawnPos))
-            {
-                spawnPos = new Vector2(Random.Range(-spawnWidth, spawnWidth), Random.Range(-spawnHeight, spawnHeight));
-            }
-            spawns.Add(spawnPos);
-            Instantiate(nontrivialQuarryPrefab, spawnPos, nontrivialQuarryPrefab.transform.rotation);
+            SpawnQuarry(nontrivialQuarryPrefab);
         }
     }
 
