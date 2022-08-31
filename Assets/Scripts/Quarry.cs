@@ -11,7 +11,7 @@ public class Quarry : MonoBehaviour
     protected float maxIdle = 0.5f, movementTime = 0.25f;
     [SerializeField] protected string[] trivia;
     protected HashSet<int> usedTrivia = new HashSet<int>();
-    protected float triviaMaxWaitTime = 5;
+    protected float triviaMinWaitTime = 3, triviaMaxWaitTime = 10;
 
     protected IEnumerator MovementLoop()
     {
@@ -80,7 +80,7 @@ public class Quarry : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(0, triviaMaxWaitTime));
+            yield return new WaitForSeconds(Random.Range(triviaMinWaitTime, triviaMaxWaitTime));
             EnqueueTrivia();
         }
     }
