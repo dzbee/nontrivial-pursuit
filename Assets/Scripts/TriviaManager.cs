@@ -24,6 +24,14 @@ public class TriviaManager : MonoBehaviour
         });
     }
 
+    public void AdjustDisplayCountOnElimination(Quarry quarry)
+    {
+        if (quarry.triviaBubble.gameObject.activeInHierarchy)
+        {
+            displayCount--;
+        }
+    }
+
     private IEnumerator DisplayTrivia()
     {
         TriviaEvent triviaEvent = waitQueue.Dequeue();

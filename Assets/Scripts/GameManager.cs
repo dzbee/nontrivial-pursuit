@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameState == GameState.Active)
         {
+            TriviaManager.Instance.AdjustDisplayCountOnElimination(quarry.GetComponent<NontrivialQuarry>());
             quarry.SetActive(false);
             nNontrivialQuarries--;
             uiManager.ScorePoint();
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameState == GameState.Active)
         {
+            TriviaManager.Instance.AdjustDisplayCountOnElimination(quarry.GetComponent<TrivialQuarry>());
             quarry.SetActive(false);
             lives--;
             uiManager.LoseLife();
