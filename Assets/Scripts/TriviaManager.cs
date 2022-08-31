@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TriviaManager : MonoBehaviour
 {
     public static TriviaManager Instance { get; private set; }
     private Queue<TriviaEvent> waitQueue = new Queue<TriviaEvent>();
     [SerializeField] int displayCount = 0, maxDisplayCount = 4;
-    private float triviaDisplayTime = 2;
+    private float triviaDisplayTime = 3;
 
     private struct TriviaEvent
     {
@@ -23,14 +24,17 @@ public class TriviaManager : MonoBehaviour
         });
     }
 
-    private void DisplayTrivia()
+    private IEnumerator DisplayTrivia()
     {
         TriviaEvent triviaEvent = waitQueue.Dequeue();
         TriviaBubble bubble = triviaEvent.quarry.triviaBubble;
-        bubble.gameObject.SetActive(true);
-        bubble.DisplayTrivia(triviaEvent.trivia);
-        displayCount++;
-        StartCoroutine(EndTriviaDisplay(bubble, triviaDisplayTime));
+        if (bubble.transform.parent.gameObject.activeInHierarchy)
+        {
+            bubble.gameObject.SetActive(true);
+            displayCount++;
+            yield return StartCoroutine(bubble.DisplayTrivia(triviaEvent.trivia));
+            StartCoroutine(EndTriviaDisplay(bubble, triviaDisplayTime));
+        }
     }
 
     private IEnumerator EndTriviaDisplay(TriviaBubble bubble, float ttl)
