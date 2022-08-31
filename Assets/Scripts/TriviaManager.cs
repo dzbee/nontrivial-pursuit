@@ -51,10 +51,11 @@ public class TriviaManager : MonoBehaviour
 
     private IEnumerator DisplayLoop()
     {
+        WaitUntil displayCondition = new WaitUntil(CanDisplay);
         while (true)
         {
-            yield return new WaitUntil(CanDisplay);
-            DisplayTrivia();
+            yield return displayCondition;
+            StartCoroutine(DisplayTrivia());
         }
     }
 
