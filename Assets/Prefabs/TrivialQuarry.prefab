@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 1296557621250432673}
+  - {fileID: 6889857135994228513}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -127,8 +127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trivia:
   - Figs ripen from wasps crawling inside to lay their eggs.
-  - There's no building taller than the US Steel Building\nthat's as wide as the
-    US Steel Building at its height.
+  - There's no building taller than the US Steel Building that's as wide as the US
+    Steel Building at its height.
   - Alcohol helps you feel warm in the cold by dilating your blood vessels.
   - If you sneeze too hard, you can fracture a rib.
   - Dust is mostly dead skin flakes.
@@ -206,8 +206,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97a5cb2ec49888b4189c52acb6e83d06, type: 3}
---- !u!4 &1296557621250432673 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 74057800761843678, guid: 97a5cb2ec49888b4189c52acb6e83d06, type: 3}
+--- !u!224 &6889857135994228513 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5720952426359737950, guid: 97a5cb2ec49888b4189c52acb6e83d06, type: 3}
   m_PrefabInstance: {fileID: 1223104861188686207}
   m_PrefabAsset: {fileID: 0}

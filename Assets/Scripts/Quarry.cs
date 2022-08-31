@@ -97,7 +97,7 @@ public class Quarry : MonoBehaviour
         int selectIndex = Random.Range(0, available.Count);
         int triviaIndex = available.ToList<int>()[selectIndex];
         usedTrivia.Add(triviaIndex);
-        return trivia[triviaIndex].Replace("\\n", "\n");
+        return trivia[triviaIndex];
     }
 
     protected void EnqueueTrivia()
