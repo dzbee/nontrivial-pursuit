@@ -293,8 +293,6 @@ MonoBehaviour:
   nQuarries: 15
   nNontrivialQuarries: 5
   lives: 3
-  spawnWidth: 10
-  spawnHeight: 4
   timeElapsed: 0
 --- !u!4 &102260504
 Transform:
@@ -827,7 +825,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
