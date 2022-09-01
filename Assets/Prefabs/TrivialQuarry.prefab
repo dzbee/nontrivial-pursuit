@@ -149,6 +149,12 @@ MonoBehaviour:
   - If you enough carrots you'll turn orange.
   - The founder of Pringles was buried in a Pringles can.
   - Elvis was a natural blonde.
+  sprites:
+  - {fileID: -1428844199, guid: 1e81326789117414ea2da7603004423d, type: 3}
+  - {fileID: 172237215, guid: 1e81326789117414ea2da7603004423d, type: 3}
+  - {fileID: 1831880, guid: 1e81326789117414ea2da7603004423d, type: 3}
+  - {fileID: -2070874365, guid: 1e81326789117414ea2da7603004423d, type: 3}
+  - {fileID: 162502069, guid: 1e81326789117414ea2da7603004423d, type: 3}
 --- !u!1001 &1223104861188686207
 PrefabInstance:
   m_ObjectHideFlags: 0

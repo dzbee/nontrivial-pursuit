@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 2700068213088017640}
+  - {fileID: 7717882770658823528}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -139,6 +139,12 @@ MonoBehaviour:
   - The lifespan of an adult fruit fly is roughly 24 hours.
   - Dr. Seuss was a doctor of child psychology.
   - JFK once proclaimed "I am a doughnut" in German to an audience in Berlin.
+  sprites:
+  - {fileID: 1831880, guid: 1e81326789117414ea2da7603004423d, type: 3}
+  - {fileID: -2070874365, guid: 1e81326789117414ea2da7603004423d, type: 3}
+  - {fileID: -1428844199, guid: 1e81326789117414ea2da7603004423d, type: 3}
+  - {fileID: 172237215, guid: 1e81326789117414ea2da7603004423d, type: 3}
+  - {fileID: 162502069, guid: 1e81326789117414ea2da7603004423d, type: 3}
 --- !u!1001 &2629973086894474038
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196,8 +202,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97a5cb2ec49888b4189c52acb6e83d06, type: 3}
---- !u!4 &2700068213088017640 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 74057800761843678, guid: 97a5cb2ec49888b4189c52acb6e83d06, type: 3}
+--- !u!224 &7717882770658823528 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5720952426359737950, guid: 97a5cb2ec49888b4189c52acb6e83d06, type: 3}
   m_PrefabInstance: {fileID: 2629973086894474038}
   m_PrefabAsset: {fileID: 0}

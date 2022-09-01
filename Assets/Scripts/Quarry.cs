@@ -10,6 +10,7 @@ public class Quarry : MonoBehaviour
     protected float arenaWidth = 8, arenaHeight = 6;
     protected float maxIdle = 0.5f, movementTime = 0.25f;
     [SerializeField] protected string[] trivia;
+    [SerializeField] protected Sprite[] sprites;
     protected HashSet<int> usedTrivia = new HashSet<int>();
 
     protected IEnumerator MovementLoop()
@@ -91,7 +92,7 @@ public class Quarry : MonoBehaviour
 
     private void Start()
     {
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        gameObject.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
         triviaBubble = gameObject.GetComponentInChildren<TriviaBubble>(true);
         TriviaManager.Instance.RegisterQuarry(this);
         StartCoroutine(MovementLoop());
