@@ -14,24 +14,30 @@ public class GameManager : MonoBehaviour
     private GameState gameState;
     [SerializeField] private int nQuarries = 15, nNontrivialQuarries = 5;
     [SerializeField] private int lives = 3;
-    [SerializeField] private int spawnWidth = 10, spawnHeight = -4;
+    private int spawnWidth = 8, spawnHeight = 5;
+    private HashSet<Vector2> spawns = new HashSet<Vector2>();
     public int timeElapsed = 0;
+
+    private void SpawnQuarry(Quarry prefab)
+    {
+        Vector2 spawnPos = new Vector2(Random.Range(-spawnWidth, spawnWidth), Random.Range(-spawnHeight, spawnHeight));
+        while (spawns.Contains(spawnPos))
+        {
+                spawnPos = new Vector2(Random.Range(-spawnWidth, spawnWidth), Random.Range(-spawnHeight, spawnHeight));
+        }
+        spawns.Add(spawnPos);
+        Instantiate(prefab, spawnPos, prefab.transform.rotation);
+    }
 
     private void SpawnQuarries()
     {
-        int spawnX = Random.Range(-spawnWidth, spawnWidth);
-        int spawnY = Random.Range(-spawnHeight, spawnHeight);
         for (int i = 0; i < nQuarries; i++)
         {
-            spawnX = Random.Range(-spawnWidth, spawnWidth);
-            spawnY = Random.Range(-spawnHeight, spawnHeight);
-            Instantiate(trivialQuarryPrefab, new Vector3(spawnX, spawnY, 0), trivialQuarryPrefab.transform.rotation);
+            SpawnQuarry(trivialQuarryPrefab);
         }
         for (int i = 0; i < nNontrivialQuarries; i++)
         {
-            spawnX = Random.Range(-spawnWidth, spawnWidth);
-            spawnY = Random.Range(-spawnHeight, spawnHeight);
-            Instantiate(nontrivialQuarryPrefab, new Vector3(spawnX, spawnY, 0), nontrivialQuarryPrefab.transform.rotation);
+            SpawnQuarry(nontrivialQuarryPrefab);
         }
     }
 
@@ -39,6 +45,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameState == GameState.Active)
         {
+            TriviaManager.Instance.AdjustDisplayCountOnElimination(quarry.GetComponent<NontrivialQuarry>());
             quarry.SetActive(false);
             nNontrivialQuarries--;
             uiManager.ScorePoint();
@@ -54,6 +61,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameState == GameState.Active)
         {
+            TriviaManager.Instance.AdjustDisplayCountOnElimination(quarry.GetComponent<TrivialQuarry>());
             quarry.SetActive(false);
             lives--;
             uiManager.LoseLife();

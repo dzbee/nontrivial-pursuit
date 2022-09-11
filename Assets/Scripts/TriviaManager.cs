@@ -1,56 +1,65 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TriviaManager : MonoBehaviour
 {
     public static TriviaManager Instance { get; private set; }
-    private Queue<TriviaEvent> waitQueue = new Queue<TriviaEvent>();
-    [SerializeField] int displayCount = 0, maxDisplayCount = 4;
-    private float triviaDisplayTime = 2;
+    private Queue<Quarry> quarryQueue = new Queue<Quarry>();
+    private HashSet<Quarry> displaySet = new HashSet<Quarry>();
+    [SerializeField] int maxDisplayCount = 4;
+    private float triviaDisplayTime = 3, minTriviaRelaxation = 3, maxTriviaRelaxation = 10;
+    private WaitForSeconds despawnWait;
 
-    private struct TriviaEvent
+    public void RegisterQuarry(Quarry quarry)
     {
-        public Quarry quarry;
-        public string trivia;
+        quarryQueue.Enqueue(quarry);
     }
 
-    public void EnqueueTrivia(Quarry quarry, string trivia)
+    private Quarry SelectQuarry()
     {
-        waitQueue.Enqueue(new TriviaEvent(){
-            quarry=quarry,
-            trivia=trivia,
-        });
+        return quarryQueue.Dequeue();
     }
 
-    private void DisplayTrivia()
+    public void AdjustDisplayCountOnElimination(Quarry quarry)
     {
-        TriviaEvent triviaEvent = waitQueue.Dequeue();
-        TriviaBubble bubble = triviaEvent.quarry.triviaBubble;
-        bubble.gameObject.SetActive(true);
-        bubble.DisplayTrivia(triviaEvent.trivia);
-        displayCount++;
-        StartCoroutine(EndTriviaDisplay(bubble, triviaDisplayTime));
+        displaySet.Remove(quarry);
     }
 
-    private IEnumerator EndTriviaDisplay(TriviaBubble bubble, float ttl)
+    private IEnumerator DisplayTrivia(Quarry quarry)
+    {
+        if (quarry.gameObject.activeInHierarchy)
+        {
+            quarry.triviaBubble.gameObject.SetActive(true);
+            displaySet.Add(quarry);
+            yield return StartCoroutine(quarry.triviaBubble.DisplayTrivia(quarry.SelectUnusedTrivia()));
+            StartCoroutine(EndTriviaDisplay(quarry, triviaDisplayTime));
+        }
+    }
+
+    private IEnumerator EndTriviaDisplay(Quarry quarry, float ttl)
     {
         yield return new WaitForSeconds(ttl);
-        bubble.gameObject.SetActive(false);
-        displayCount--;
+        quarry.triviaBubble.gameObject.SetActive(false);
+        displaySet.Remove(quarry);
+        yield return new WaitForSeconds(Random.Range(minTriviaRelaxation, maxTriviaRelaxation));
+        quarryQueue.Enqueue(quarry);
     }
 
     private bool CanDisplay()
     {
-        return displayCount < maxDisplayCount & waitQueue.Count > 0;
+        return displaySet.Count < maxDisplayCount && quarryQueue.Count > 0;
     }
 
     private IEnumerator DisplayLoop()
     {
+        WaitUntil displayCondition = new WaitUntil(CanDisplay);
         while (true)
         {
-            yield return new WaitUntil(CanDisplay);
-            DisplayTrivia();
+            yield return displayCondition;
+            Quarry quarry = SelectQuarry();
+            StartCoroutine(DisplayTrivia(quarry));
         }
     }
 
@@ -64,6 +73,8 @@ public class TriviaManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        despawnWait = new WaitForSeconds(triviaDisplayTime);
     }
 
     private void Start()
