@@ -149,6 +149,27 @@ MonoBehaviour:
   - If you enough carrots you'll turn orange.
   - The founder of Pringles was buried in a Pringles can.
   - Elvis was a natural blonde.
+  spriteSets:
+  - up: {fileID: -1122532058, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    down: {fileID: -1428844199, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    left: {fileID: -1370704726, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    right: {fileID: -1916311745, guid: 1e81326789117414ea2da7603004423d, type: 3}
+  - up: {fileID: -105379442, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    down: {fileID: 172237215, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    left: {fileID: 751510189, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    right: {fileID: 213330369, guid: 1e81326789117414ea2da7603004423d, type: 3}
+  - up: {fileID: 1550740023, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    down: {fileID: 1831880, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    left: {fileID: 846453978, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    right: {fileID: -1891456425, guid: 1e81326789117414ea2da7603004423d, type: 3}
+  - up: {fileID: 338601372, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    down: {fileID: -2070874365, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    left: {fileID: -282345637, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    right: {fileID: 992693409, guid: 1e81326789117414ea2da7603004423d, type: 3}
+  - up: {fileID: 1889386803, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    down: {fileID: 162502069, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    left: {fileID: -1286726801, guid: 1e81326789117414ea2da7603004423d, type: 3}
+    right: {fileID: 1330280028, guid: 1e81326789117414ea2da7603004423d, type: 3}
 --- !u!1001 &1223104861188686207
 PrefabInstance:
   m_ObjectHideFlags: 0
