@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,19 +6,25 @@ using UnityEngine;
 
 public class Quarry : MonoBehaviour
 {
+    [Serializable]
+    protected class SpriteSet {
+        public Sprite up, down, left, right;
+    }
+
     public TriviaBubble triviaBubble { get; protected set; }
     protected enum Direction{Up, Down, Right, Left};
     protected float arenaWidth = 8, arenaHeight = 6;
     protected float maxIdle = 0.5f, movementTime = 0.25f;
     [SerializeField] protected string[] trivia;
-    [SerializeField] protected Sprite[] sprites;
+    [SerializeField] protected SpriteSet[] spriteSets;
+    private SpriteSet spriteSet;
     protected HashSet<int> usedTrivia = new HashSet<int>();
 
     protected IEnumerator MovementLoop()
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(0, maxIdle));
+            yield return new WaitForSeconds(UnityEngine.Random.Range(0, maxIdle));
             Vector2 currentPosition = transform.position;
             Vector2 targetPosition = currentPosition + GetMovementUpdate();
             yield return StartCoroutine(Move(currentPosition, targetPosition));
@@ -38,7 +45,8 @@ public class Quarry : MonoBehaviour
 
     protected Vector2 GetMovementUpdate()
     {
-        Direction directionCode = (Direction)Random.Range(0, 4);
+        Direction directionCode = (Direction)UnityEngine.Random.Range(0, 4);
+        UpdateSpriteDirection(directionCode);
         Vector2 move = Vector2.zero;
         switch (directionCode) {
             case Direction.Up:
@@ -56,7 +64,7 @@ public class Quarry : MonoBehaviour
         }
         if (!IsMoveInBounds(move))
         {
-            move = -move;
+            move = Vector2.zero;
         }
         return move;
     }
@@ -75,6 +83,7 @@ public class Quarry : MonoBehaviour
         }
         return true;
     }
+
     public string SelectUnusedTrivia()
     {
         HashSet<int> available = Enumerable.Range(0, trivia.Length).ToHashSet<int>();
@@ -84,15 +93,34 @@ public class Quarry : MonoBehaviour
             usedTrivia = new HashSet<int>();
             return SelectUnusedTrivia();
         }
-        int selectIndex = Random.Range(0, available.Count);
+        int selectIndex = UnityEngine.Random.Range(0, available.Count);
         int triviaIndex = available.ToList<int>()[selectIndex];
         usedTrivia.Add(triviaIndex);
         return trivia[triviaIndex];
     }
 
+    protected void UpdateSpriteDirection(Direction direction)
+    {
+        switch (direction) {
+            case Direction.Up:
+                gameObject.GetComponent<SpriteRenderer>().sprite = spriteSet.up;
+                return;
+            case Direction.Down:
+                gameObject.GetComponent<SpriteRenderer>().sprite = spriteSet.down;
+                return;
+            case Direction.Left:
+                gameObject.GetComponent<SpriteRenderer>().sprite = spriteSet.left;
+                return;
+            case Direction.Right:
+                gameObject.GetComponent<SpriteRenderer>().sprite = spriteSet.right;
+                return;
+        }
+    }
+
     private void Start()
     {
-        gameObject.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
+        spriteSet = spriteSets[UnityEngine.Random.Range(0, spriteSets.Length)];
+        UpdateSpriteDirection(Direction.Down);
         triviaBubble = gameObject.GetComponentInChildren<TriviaBubble>(true);
         TriviaManager.Instance.RegisterQuarry(this);
         StartCoroutine(MovementLoop());
