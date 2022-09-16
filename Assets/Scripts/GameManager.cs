@@ -14,16 +14,16 @@ public class GameManager : MonoBehaviour
     private GameState gameState;
     [SerializeField] private int nQuarries = 15, nNontrivialQuarries = 5;
     [SerializeField] private int lives = 3;
-    private int spawnWidth = 8, spawnHeight = 5;
+    [HideInInspector] public int arenaWidth = 10, arenaHeight = 5;
     private HashSet<Vector2> spawns = new HashSet<Vector2>();
     public int timeElapsed = 0;
 
     private void SpawnQuarry(Quarry prefab)
     {
-        Vector2 spawnPos = new Vector2(Random.Range(-spawnWidth, spawnWidth), Random.Range(-spawnHeight, spawnHeight));
+        Vector2 spawnPos = new Vector2(Random.Range(-arenaWidth, arenaWidth), Random.Range(-arenaHeight, arenaHeight));
         while (spawns.Contains(spawnPos))
         {
-                spawnPos = new Vector2(Random.Range(-spawnWidth, spawnWidth), Random.Range(-spawnHeight, spawnHeight));
+                spawnPos = new Vector2(Random.Range(-arenaWidth, arenaWidth), Random.Range(-arenaHeight, arenaHeight));
         }
         spawns.Add(spawnPos);
         Instantiate(prefab, spawnPos, prefab.transform.rotation);

@@ -13,7 +13,6 @@ public class Quarry : MonoBehaviour
 
     public TriviaBubble triviaBubble { get; protected set; }
     protected enum Direction{Up, Down, Right, Left};
-    protected float arenaWidth = 8, arenaHeight = 6;
     protected float maxIdle = 0.5f, movementTime = 0.25f;
     [SerializeField] protected string[] trivia;
     [SerializeField] protected SpriteSet[] spriteSets;
@@ -26,7 +25,7 @@ public class Quarry : MonoBehaviour
         {
             yield return new WaitForSeconds(UnityEngine.Random.Range(0, maxIdle));
             Vector2 currentPosition = transform.position;
-            Vector2 targetPosition = currentPosition + GetMovementUpdate();
+            Vector2 targetPosition = GetMovementUpdate();
             yield return StartCoroutine(Move(currentPosition, targetPosition));
         }
     }
@@ -62,26 +61,16 @@ public class Quarry : MonoBehaviour
                 move = new Vector2(-1, 0);
                 break;
         }
-        if (!IsMoveInBounds(move))
-        {
-            move = Vector2.zero;
-        }
-        return move;
+        
+        return BoundMove(move);
     }
 
-    protected bool IsMoveInBounds(Vector2 move)
+    protected Vector2 BoundMove(Vector2 move)
     {
-        Vector2 updatedPosition = new Vector2(transform.position.x, transform.position.y) + move;
-        if (
-            updatedPosition.x - transform.localScale.x / 2 < -arenaWidth ||
-            updatedPosition.x + transform.localScale.x / 2 > arenaWidth ||
-            updatedPosition.y - transform.localScale.y / 2 < -arenaHeight ||
-            updatedPosition.y + transform.localScale.y / 2 > arenaHeight
-        )
-        {
-            return false;
-        }
-        return true;
+        return new Vector2(
+            Mathf.Clamp(transform.position.x + move.x, -GameManager.Instance.arenaWidth, GameManager.Instance.arenaWidth), 
+            Mathf.Clamp(transform.position.y + move.y, -GameManager.Instance.arenaHeight, GameManager.Instance.arenaHeight)
+        );
     }
 
     public string SelectUnusedTrivia()
