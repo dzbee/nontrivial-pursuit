@@ -39,7 +39,6 @@ public class TriviaManager : MonoBehaviour
 
     private void VerticallyFlipPointer(TriviaBubble bubble)
     {
-        Debug.Log($"flipping: {bubble.pointer.transform.localPosition.y}");
         bubble.pointer.flipY = !bubble.pointer.flipY;
         bubble.pointer.transform.localPosition = new Vector2(
             bubble.pointer.transform.localPosition.x, 
@@ -64,6 +63,27 @@ public class TriviaManager : MonoBehaviour
         if (Mathf.Sign(quarry.transform.position.y - quarry.triviaBubble.transform.position.y) != Mathf.Sign(quarry.triviaBubble.pointer.transform.localPosition.y))
         {
             VerticallyFlipPointer(quarry.triviaBubble);
+        }
+
+        //Get quarry sprite extent (plus some padding)
+        float quarrySize = quarry.GetComponent<SpriteRenderer>().bounds.extents.x * 1.25f;
+        //Slide pointer horizontally to offset local bubble positioning
+        //Flip pointer if needed
+        if (quarry.triviaBubble.transform.localPosition.x < 0)
+        {
+            quarry.triviaBubble.pointer.transform.localPosition = new Vector2(
+                -quarry.triviaBubble.transform.localPosition.x - quarrySize, 
+                quarry.triviaBubble.pointer.transform.localPosition.y
+            );
+            quarry.triviaBubble.pointer.flipX = true;
+        }
+        else
+        {
+            quarry.triviaBubble.pointer.transform.localPosition = new Vector2(
+                -quarry.triviaBubble.transform.localPosition.x + quarrySize,
+                quarry.triviaBubble.pointer.transform.localPosition.y
+            );
+            quarry.triviaBubble.pointer.flipX = false;
         }
     }
 
