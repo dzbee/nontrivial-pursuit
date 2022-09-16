@@ -37,6 +37,36 @@ public class TriviaManager : MonoBehaviour
         );
     }
 
+    private void VerticallyFlipPointer(TriviaBubble bubble)
+    {
+        Debug.Log($"flipping: {bubble.pointer.transform.localPosition.y}");
+        bubble.pointer.flipY = !bubble.pointer.flipY;
+        bubble.pointer.transform.localPosition = new Vector2(
+            bubble.pointer.transform.localPosition.x, 
+            -bubble.pointer.transform.localPosition.y
+        );
+    }
+
+    private void RestoreDefaultPointerPosition(SpriteRenderer pointer)
+    {
+        if (pointer.flipY) {
+            pointer.transform.localPosition = new Vector2(
+                pointer.transform.localPosition.x, 
+                -pointer.transform.localPosition.y
+            );
+            pointer.flipY = false;  
+        }
+    }
+
+    public void PositionSpeechPointer(Quarry quarry)
+    {
+        //Determine if pointer needs vertical flip
+        if (Mathf.Sign(quarry.transform.position.y - quarry.triviaBubble.transform.position.y) != Mathf.Sign(quarry.triviaBubble.pointer.transform.localPosition.y))
+        {
+            VerticallyFlipPointer(quarry.triviaBubble);
+        }
+    }
+
     private IEnumerator DisplayTrivia(Quarry quarry)
     {
         if (quarry.gameObject.activeInHierarchy)
@@ -45,6 +75,7 @@ public class TriviaManager : MonoBehaviour
             quarry.triviaBubble.gameObject.SetActive(true);
             quarry.triviaBubble.SetTriviaBackgroundSize(trivia);
             PositionBubbleInBounds(quarry.triviaBubble);
+            PositionSpeechPointer(quarry);
             displaySet.Add(quarry);
             yield return StartCoroutine(quarry.triviaBubble.DisplayTrivia(trivia));
             StartCoroutine(EndTriviaDisplay(quarry, triviaDisplayTime));
@@ -54,6 +85,7 @@ public class TriviaManager : MonoBehaviour
     private IEnumerator EndTriviaDisplay(Quarry quarry, float ttl)
     {
         yield return new WaitForSeconds(ttl);
+        RestoreDefaultPointerPosition(quarry.triviaBubble.pointer);
         quarry.triviaBubble.gameObject.SetActive(false);
         displaySet.Remove(quarry);
         yield return new WaitForSeconds(Random.Range(minTriviaRelaxation, maxTriviaRelaxation));

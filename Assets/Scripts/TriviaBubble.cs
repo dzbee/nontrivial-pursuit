@@ -22,7 +22,7 @@ public class TriviaBubble : MonoBehaviour
         Vector2 textSize = text.GetRenderedValues(false);
         Vector2 currentSize = background.size;
         background.size = textSize + padding;
-        pointer.transform.Translate(new Vector2(0, (currentSize.y - background.size.y) / 2));
+        pointer.transform.Translate(0, (currentSize.y - background.size.y) / 2, 0);
     }
 
     private IEnumerator WriteTrivia(string trivia)

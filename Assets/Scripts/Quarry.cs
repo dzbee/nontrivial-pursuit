@@ -36,7 +36,11 @@ public class Quarry : MonoBehaviour
         while (timeElapsed <= movementTime)
         {
             transform.position = Vector3.Lerp(currentPosition, targetPosition, timeElapsed / movementTime);
-            TriviaManager.Instance.PositionBubbleInBounds(triviaBubble);
+            if (triviaBubble.isActiveAndEnabled)
+            {
+                TriviaManager.Instance.PositionBubbleInBounds(triviaBubble);
+                TriviaManager.Instance.PositionSpeechPointer(this);
+            }
             yield return new WaitForFixedUpdate();
             timeElapsed += Time.fixedDeltaTime;
         }
