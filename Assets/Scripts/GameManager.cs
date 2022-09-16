@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private GameState gameState;
     [SerializeField] private int nQuarries = 15, nNontrivialQuarries = 5;
     [SerializeField] private int lives = 3;
-    [HideInInspector] public int arenaWidth = 10, arenaHeight = 5;
+    private int arenaWidth = 10, arenaHeight = 5;
     private HashSet<Vector2> spawns = new HashSet<Vector2>();
     public int timeElapsed = 0;
 
@@ -71,6 +71,14 @@ public class GameManager : MonoBehaviour
                 uiManager.GameOver(false);
             }
         }
+    }
+
+    public Vector2 BoundPosition(Vector2 position, float horizontalPadding=0, float verticalPadding=0)
+    {
+        return new Vector2(
+            Mathf.Clamp(position.x, -arenaWidth + horizontalPadding, arenaWidth - horizontalPadding),
+            Mathf.Clamp(position.y, -arenaHeight + verticalPadding, arenaHeight - verticalPadding)
+        );
     }
 
     private void GameOver()

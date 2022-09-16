@@ -25,7 +25,7 @@ public class Quarry : MonoBehaviour
         {
             yield return new WaitForSeconds(UnityEngine.Random.Range(0, maxIdle));
             Vector2 currentPosition = transform.position;
-            Vector2 targetPosition = GetMovementUpdate();
+            Vector2 targetPosition = GameManager.Instance.BoundPosition(currentPosition + GetMovementUpdate());
             yield return StartCoroutine(Move(currentPosition, targetPosition));
         }
     }
@@ -36,6 +36,7 @@ public class Quarry : MonoBehaviour
         while (timeElapsed <= movementTime)
         {
             transform.position = Vector3.Lerp(currentPosition, targetPosition, timeElapsed / movementTime);
+            TriviaManager.Instance.PositionBubbleInBounds(triviaBubble);
             yield return new WaitForFixedUpdate();
             timeElapsed += Time.fixedDeltaTime;
         }
@@ -62,15 +63,7 @@ public class Quarry : MonoBehaviour
                 break;
         }
         
-        return BoundMove(move);
-    }
-
-    protected Vector2 BoundMove(Vector2 move)
-    {
-        return new Vector2(
-            Mathf.Clamp(transform.position.x + move.x, -GameManager.Instance.arenaWidth, GameManager.Instance.arenaWidth), 
-            Mathf.Clamp(transform.position.y + move.y, -GameManager.Instance.arenaHeight, GameManager.Instance.arenaHeight)
-        );
+        return move;
     }
 
     public string SelectUnusedTrivia()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using TMPro;
 
@@ -8,7 +9,7 @@ public class TriviaManager : MonoBehaviour
     public static TriviaManager Instance { get; private set; }
     private Queue<Quarry> quarryQueue = new Queue<Quarry>();
     private HashSet<Quarry> displaySet = new HashSet<Quarry>();
-    [SerializeField] int maxDisplayCount = 4;
+    private int maxDisplayCount = 4;
     private float triviaDisplayTime = 3, minTriviaRelaxation = 3, maxTriviaRelaxation = 10;
     private WaitForSeconds despawnWait;
 
@@ -27,13 +28,25 @@ public class TriviaManager : MonoBehaviour
         displaySet.Remove(quarry);
     }
 
+    public void PositionBubbleInBounds(TriviaBubble bubble)
+    {
+        bubble.transform.position = GameManager.Instance.BoundPosition(
+            bubble.transform.position,
+            bubble.background.size.x / 2,
+            bubble.background.size.y / 2
+        );
+    }
+
     private IEnumerator DisplayTrivia(Quarry quarry)
     {
         if (quarry.gameObject.activeInHierarchy)
         {
+            string trivia = quarry.SelectUnusedTrivia();
             quarry.triviaBubble.gameObject.SetActive(true);
+            quarry.triviaBubble.SetTriviaBackgroundSize(trivia);
+            PositionBubbleInBounds(quarry.triviaBubble);
             displaySet.Add(quarry);
-            yield return StartCoroutine(quarry.triviaBubble.DisplayTrivia(quarry.SelectUnusedTrivia()));
+            yield return StartCoroutine(quarry.triviaBubble.DisplayTrivia(trivia));
             StartCoroutine(EndTriviaDisplay(quarry, triviaDisplayTime));
         }
     }
