@@ -5,7 +5,7 @@ using TMPro;
 
 public class TriviaBubble : MonoBehaviour
 {
-    [SerializeField] public SpriteRenderer background;
+    [SerializeField] public SpriteRenderer background, pointer;
     [SerializeField] public TextMeshPro text;
     private Vector2 padding = new Vector2(0.5f, 0.5f);
     private float timePerCharacter = 0.05f;
@@ -20,7 +20,9 @@ public class TriviaBubble : MonoBehaviour
         text.text = HideTextFromIndex(trivia, 0);
         text.ForceMeshUpdate();
         Vector2 textSize = text.GetRenderedValues(false);
+        Vector2 currentSize = background.size;
         background.size = textSize + padding;
+        pointer.transform.Translate(new Vector2(0, (currentSize.y - background.size.y) / 2));
     }
 
     private IEnumerator WriteTrivia(string trivia)
