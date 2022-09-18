@@ -5,11 +5,9 @@ using TMPro;
 
 public class TriviaBubble : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer background;
-    [SerializeField] private TextMeshPro text;
-    private Vector2 padding = new Vector2(1.25f, 1.25f);
-    private Vector3 startPos;
-    private float startWidth;
+    [SerializeField] public SpriteRenderer background, pointer;
+    [SerializeField] public TextMeshPro text;
+    private Vector2 padding = new Vector2(0.5f, 0.5f);
     private float timePerCharacter = 0.05f;
 
     private string HideTextFromIndex(string text, int index)
@@ -17,13 +15,14 @@ public class TriviaBubble : MonoBehaviour
         return $"{text.Substring(0, index)}<color=#00000000>{text.Substring(index)}</color>";
     }
 
-    private void SetTriviaBackgroundSize(string trivia)
+    public void SetTriviaBackgroundSize(string trivia)
     {
         text.text = HideTextFromIndex(trivia, 0);
         text.ForceMeshUpdate();
         Vector2 textSize = text.GetRenderedValues(false);
+        Vector2 currentSize = background.size;
         background.size = textSize + padding;
-        transform.localPosition = startPos + new Vector3(background.size.x / 2 - startWidth, 0, 0);
+        pointer.transform.Translate(0, (currentSize.y - background.size.y) / 2, 0);
     }
 
     private IEnumerator WriteTrivia(string trivia)
@@ -51,11 +50,5 @@ public class TriviaBubble : MonoBehaviour
     {
         SetTriviaBackgroundSize(trivia);
         yield return StartCoroutine(WriteTrivia(trivia));
-    }
-
-    private void Awake()
-    {
-        startPos = transform.localPosition;
-        startWidth = background.size.x;
     }
 }
