@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private NontrivialQuarry nontrivialQuarryPrefab;
     private enum GameState{Active, Inactive};
     private GameState gameState;
-    [SerializeField] private int nQuarries = 15, nNontrivialQuarries = 5;
+    [SerializeField] private int nQuarries = 12, nNontrivialQuarries = 4;
     [SerializeField] private int lives = 3;
-    private int arenaWidth = 10, arenaHeight = 5;
+    [HideInInspector] public int arenaWidth = 10, arenaHeight = 5;
     private HashSet<Vector2> spawns = new HashSet<Vector2>();
     public int timeElapsed = 0;
 
